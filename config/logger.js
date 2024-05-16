@@ -1,17 +1,38 @@
-const morgan = require('morgan');
-const fs = require('fs');
+const winston = require('winston');
 const path = require('path');
 
-// Create a write stream for logging
-const accessLogStream = fs.createWriteStream(path.join(__dirname, '/logging/access.log'), { flags: 'a' });
+// Define log file paths
+const accessLogPath = path.join(__dirname, 'logs/access.log');
+const errorLogPath = path.join(__dirname, 'logs/error.log');
+const combinedLogPath = path.join(__dirname, 'logs/combined.log');
 
-// Define custom token for logging timestamp
-morgan.token('timestamp', () => new Date().toISOString());
 
-// Define custom logging format
-const loggingFormat = 'combined';
+// Create writable stream for combined logging
+const combinedLogStream = {
+    write: (message) => {
+        combinedLogger.info(`/n ${message.trim()}`);
+    },
+};
 
-// Create and export Morgan middleware
-const logger = morgan(loggingFormat, { stream: accessLogStream });
+// Configure Winston for access logging
+const accessLogger = winston.createLogger({
+    transports: [
+        new winston.transports.File({ filename: accessLogPath })
+    ]
+});
 
-module.exports = logger;
+// Configure Winston for error logging
+const errorLogger = winston.createLogger({
+    transports: [
+        new winston.transports.File({ filename: errorLogPath, level: 'error' })
+    ]
+});
+
+// Configure Winston for combined logging
+const combinedLogger = winston.createLogger({
+    transports: [
+        new winston.transports.File({ filename: combinedLogPath })
+    ]
+});
+
+module.exports = { accessLogger, errorLogger, combinedLogger, combinedLogStream };

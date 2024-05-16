@@ -1,3 +1,4 @@
+const { errorLogger } = require("@config/logger");
 const User = require("@src/models/app/User");
 const { serviceResponse } = require("@src/utils/helpers/api_response");
 const bcrypt = require('bcryptjs');
@@ -19,7 +20,7 @@ module.exports.register = async (req, res) => {
     }
 }
 
-module.exports.login = async (req, res) => {
+module.exports.login = async (re, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
@@ -35,6 +36,7 @@ module.exports.login = async (req, res) => {
         res.status(200).json({ message: 'Login successful', user: req.session.user });
     } catch (error) {
         console.error('Error logging in:', error);
+        errorLogger.error({ meaage: error.message, stack: error.stack })
         return res.status(500).send(new serviceResponse({ status: 500, errors: [{ message: error.message }] }))
     }
 }
