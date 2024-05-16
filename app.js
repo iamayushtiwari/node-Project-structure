@@ -8,6 +8,7 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const http = require('http');
 const compression = require('compression');
+const session = require('express-session');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./src/utils/swagger/swagger-output.json');
@@ -31,6 +32,11 @@ app.use(handleCors)
 app.use(handlePagination)
 app.use(handleRateLimit)
 app.disable('x-powered-by')
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: false
+}));
 app.use(apiVersion, apiRouterV1)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // server status

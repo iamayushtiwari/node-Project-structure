@@ -1,5 +1,5 @@
 const express = require('express');
-const { register } = require('./Controller');
+const { register, login } = require('./Controller');
 const { body } = require('express-validator');
 const { validateErrors } = require('@src/utils/helpers/express_validator');
 const userRouter = express.Router();
@@ -12,5 +12,10 @@ userRouter.post('/register', [
     body('mobile_number', "mobile_number can't be null").notEmpty().isMobilePhone().not().withMessage("mobile_numberF is not in valid format").trim(),
     body('password', "password can't be null").notEmpty().trim()
 ], validateErrors, register)
+
+userRouter.post('/login', [
+    body('username', "username can't be null").notEmpty().isString().not().trim(),
+    body('password', "password can't be null").notEmpty().trim()
+], validateErrors, login)
 
 module.exports = { userRouter }
