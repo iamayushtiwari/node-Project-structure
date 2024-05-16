@@ -19,11 +19,12 @@ require('module-alias/register')
 const { PORT, apiVersion } = require("./config/index");
 require('./config/database')
 const { handleCatchError, handleRouteNotFound, handleCors, handlePagination, handleRateLimit } = require("@src/middlewares/express_app");
+const logger = require("@config/logger");
 
 // application level middlewares
 app.use(helmet())
 app.use(cors());
-app.use(morgan('dev'));
+app.use(logger);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "30mb" }));

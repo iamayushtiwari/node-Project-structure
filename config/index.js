@@ -14,7 +14,6 @@ module.exports = {
     apiVersion: process.env.API_VERSION,
     // Default Secret Key For Auth Token
     JWT_SECRET_KEY: process.env.SECRET_KEY,
-    // mongodb://127.0.0.1:27017/node-project
     connection_string: process.env.CONNECTION_STRING,
 
     mailer: {
