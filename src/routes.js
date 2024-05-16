@@ -1,9 +1,5 @@
 // Call Your Routes
-
-const { example } = require("./services/example/Routes");
-
-
-
+const { userRouter } = require("./services/user/Routes");
 const ExpressApp = require("express")();
 /**
  * 
@@ -11,5 +7,5 @@ const ExpressApp = require("express")();
  */
 module.exports = (app) => {
     /* Define Your Routes */
-    app.use('/example', example)
+    app.use('/user', userRouter)
 }

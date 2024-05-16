@@ -8,15 +8,15 @@ module.exports = {
             // Your Error Handling Here
             return res.send(new serviceResponse({ status: status, errors: [{ message: error }] }))
         } catch (err) {
-            return res.send(new serviceResponse({ status: 500, error: [{ message: err.message }] }))
+            return res.send(new serviceResponse({ status: 500, errors: [{ message: err.message }] }))
         }
     },
 
     handleRouteNotFound: (req, res) => {
         try {
-            return res.send(new serviceResponse({ status: 404, error: "Route not found." }))
+            return res.send(new serviceResponse({ status: 404, errors: "Route not found." }))
         } catch (err) {
-            return res.send(new serviceResponse({ status: 404, error: err.message }))
+            return res.send(new serviceResponse({ status: 404, errors: err.message }))
         }
     },
 
@@ -28,7 +28,7 @@ module.exports = {
             res.setHeader('Access-Control-Allow-Credentials', true);
             next();
         } catch (err) {
-            return res.send(new serviceResponse({ status: 404, error: err.message }))
+            return res.send(new serviceResponse({ status: 404, errors: err.message }))
         }
     },
 
@@ -47,7 +47,7 @@ module.exports = {
             req.query.paginate = paginate == 0 ? 0 : 1;
             next();
         } catch (err) {
-            return res.send(new serviceResponse({ status: 404, error: err.message }))
+            return res.send(new serviceResponse({ status: 404, errors: err.message }))
         }
     },
     handleRateLimit: rateLimit({

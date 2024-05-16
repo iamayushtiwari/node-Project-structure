@@ -18,23 +18,19 @@ const verifyJwtToken = function (req, res, next) {
 
         jwt.verify(token, JWT_SECRET_KEY, async function (err, decoded) {
             if (err) {
-                return res.status(403).json(new serviceResponse({ status: 403, error: _auth_module.unAuth }));
+                return res.status(403).json(new serviceResponse({ status: 403, errors: _auth_module.unAuth }));
             }
             else {
                 // Set Your Token Keys In Request
                 Object.entries(decoded).forEach(([key, value]) => {
                     req[key] = value
                 })
-
-                if (!req.db_name) {
-                    return res.status(403).json(new serviceResponse({ status: 403, error: _auth_module.unAuth }));
-                }
                 next();
             }
         });
     }
     else {
-        return res.status(403).send(new serviceResponse({ status: 403, error: _auth_module.tokenMissing }));
+        return res.status(403).send(new serviceResponse({ status: 403, errors: _auth_module.tokenMissing }));
     }
 };
 
@@ -44,7 +40,7 @@ const verifyBasicAuth = async function (req, res, next) {
 
         if (!authheader) {
             res.setHeader('WWW-Authenticate', 'Basic');
-            return res.status(401).json(new serviceResponse({ status: 401, error: _auth_module.unAuth }));
+            return res.status(401).json(new serviceResponse({ status: 401, errors: _auth_module.unAuth }));
         }
 
         const auth = new Buffer.from(authheader.split(' ')[1], 'base64').toString().split(':');
@@ -56,10 +52,10 @@ const verifyBasicAuth = async function (req, res, next) {
             next();
         } else {
             res.setHeader('WWW-Authenticate', 'Basic');
-            return res.status(401).json(new serviceResponse({ status: 401, error: _auth_module.unAuth }));
+            return res.status(401).json(new serviceResponse({ status: 401, errors: _auth_module.unAuth }));
         }
     } catch (error) {
-        return res.status(500).json(new serviceResponse({ status: 500, error: error.message }));
+        return res.status(500).json(new serviceResponse({ status: 500, errors: error.message }));
     }
 }
 

@@ -16,6 +16,7 @@ require('module-alias/register')
 
 // configs
 const { PORT, apiVersion } = require("./config/index");
+require('./config/database')
 const { handleCatchError, handleRouteNotFound, handleCors, handlePagination, handleRateLimit } = require("@src/middlewares/express_app");
 
 // application level middlewares
@@ -34,7 +35,7 @@ app.use(apiVersion, apiRouterV1)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // server status
 app.get('/', (req, res) => {
-    res.send(`<div align="center" style=""><h1>E-com  Server Ready For Requests. <h1><div>`);
+    res.send(`<div align="center" style=""><h1>Server Ready For Requests. <h1><div>`);
 });
 
 // Routes permissions
@@ -47,8 +48,7 @@ app.all("*", handleRouteNotFound)
 // Create http server
 const httpServer = http.createServer(app);
 
-// require("@src/crons/index");
 // Listner server
 httpServer.listen(PORT, async () => {
-    console.log("E-com Server is running on PORT:", PORT);
+    console.log("Server is running on PORT:", PORT);
 })  
