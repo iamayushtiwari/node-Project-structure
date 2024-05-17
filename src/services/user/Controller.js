@@ -21,6 +21,7 @@ module.exports.register = async (req, res) => {
         res.status(201).send(new serviceResponse({ status: 201, data: newUser, message: 'User registered successfully' }))
     } catch (error) {
         console.error('Error registering user:', error);
+        errorLogger.error({ message: error.message, stack: error.stack })
         return res.status(500).send(new serviceResponse({ status: 500, errors: [{ message: error.message }] }))
     }
 }
@@ -38,7 +39,7 @@ module.exports.login = async (req, res) => {
         }
         delete user._doc.password
         delete user._doc.updatedAt
-        
+
         const token = generateJwtToken(user._doc)
         res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 360000, });
         await redisClient.setEx(user.id, 3600, JSON.stringify(user._doc))
@@ -46,7 +47,7 @@ module.exports.login = async (req, res) => {
         res.status(200).json({ message: 'Login successful', user: user });
     } catch (error) {
         console.error('Error logging in:', error);
-        errorLogger.error({ meaage: error.message, stack: error.stack })
+        errorLogger.error({ message: error.message, stack: error.stack })
         return res.status(500).send(new serviceResponse({ status: 500, errors: [{ message: error.message }] }))
     }
 }
@@ -57,7 +58,7 @@ module.exports.logout = async (req, res) => {
         return res.status(200).json({ message: 'logout successful' });
     } catch (error) {
         console.error('Error logging in:', error);
-        errorLogger.error({ meaage: error.message, stack: error.stack })
+        errorLogger.error({ message: error.message, stack: error.stack })
         return res.status(500).send(new serviceResponse({ status: 500, errors: [{ message: error.message }] }))
     }
 }
@@ -82,8 +83,9 @@ module.exports.forgot_password = async (req, res) => {
         http://${req.headers.host}/v1/user/reset/${token}\n\n
         If you did not request this, please ignore this email and your password will remain unchanged.\n </p>`)
         return res.status(201).send(new serviceResponse({ status: 201, message: 'Please check your register mail' }))
-    } catch (err) {
-        console.error('Error: ', err);
+    } catch (error) {
+        console.error('Error: ', error);
+        errorLogger.error({ message: error.message, stack: error.stack })
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
@@ -114,8 +116,9 @@ module.exports.sendResetPage = async (req, res) => {
                 <button type="submit">Reset Password</button>
             </form>
         `);
-    } catch (err) {
-        console.error('Error: ', err);
+    } catch (error) {
+        console.error('Error: ', error);
+        errorLogger.error({ message: error.message, stack: error.stack })
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
@@ -147,8 +150,9 @@ module.exports.resetPassword = async (req, res) => {
         await user.save();
 
         return res.status(200).json({ message: 'Password reset successfully' });
-    } catch (err) {
-        console.error('Error: ', err);
+    } catch (error) {
+        console.error('Error: ', error);
+        errorLogger.error({ message: error.message, stack: error.stack })
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
