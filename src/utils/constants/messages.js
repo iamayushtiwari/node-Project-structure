@@ -4,7 +4,8 @@ module.exports = {
         login: (name) => `${name || "Account"} login successfully.`,
         allReadyExist: (key) => `${key || "Data"} already exist.`,
         unAuth: "Unauthorized access.",
-        tokenMissing: "Token missing, Please login again."
+        tokenMissing: "Token missing, Please login again.",
+        tokenExpired: "Token Expired, Please login again."
     },
     _middleware: {
         dbNotInitDB: (name) => `DB not initialize for ${name}.`,

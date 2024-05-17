@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const http = require('http');
 const compression = require('compression');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./src/utils/swagger/swagger-output.json');
@@ -18,6 +19,7 @@ require('module-alias/register')
 // configs
 const { PORT, apiVersion } = require("./config/index");
 require('./config/database')
+require('./config/redis')
 const { handleCatchError, handleRouteNotFound, handleCors, handlePagination, handleRateLimit } = require("@src/middlewares/express_app");
 const { combinedLogger, combinedLogStream } = require("@config/logger");
 
@@ -33,12 +35,8 @@ app.use(compression());
 app.use(handleCors)
 app.use(handlePagination)
 app.use(handleRateLimit)
+app.use(cookieParser());
 app.disable('x-powered-by')
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false
-}));
 app.use(apiVersion, apiRouterV1)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // server status

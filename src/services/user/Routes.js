@@ -1,7 +1,8 @@
 const express = require('express');
-const { register, login, resetPassword, sendResetPage, forgot_password } = require('./Controller');
+const { register, login, resetPassword, sendResetPage, forgot_password, logout } = require('./Controller');
 const { body } = require('express-validator');
 const { validateErrors } = require('@src/utils/helpers/express_validator');
+const { verifyJwtToken } = require('@src/middlewares/jwt');
 const userRouter = express.Router();
 
 
@@ -17,6 +18,8 @@ userRouter.post('/login', [
     body('username', "username can't be null").notEmpty().isString().not().trim(),
     body('password', "password can't be null").notEmpty().trim()
 ], validateErrors, login)
+
+userRouter.post('/logout', verifyJwtToken, logout)
 
 userRouter.post('/forgot-password', [
     body('email', "email can't be null").notEmpty().isEmail().not().withMessage("email is not in valid format").trim(),

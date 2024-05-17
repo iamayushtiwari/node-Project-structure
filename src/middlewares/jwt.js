@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { serviceResponse } = require('@src/utils/helpers/api_response');
 const { _auth_module } = require('@src/utils/constants/messages');
 const { JWT_SECRET_KEY } = require('@config/index');
+const { redisClient } = require('@config/redis');
 
 /**
  * 
@@ -11,21 +12,23 @@ const { JWT_SECRET_KEY } = require('@config/index');
  * @returns 
  */
 const verifyJwtToken = function (req, res, next) {
-    let authorization = req.headers.authorization;
-    if (authorization) {
-        var tokenBearer = authorization.split(' ');
-        var token = tokenBearer[1];
+    let { token } = req.cookies;
+    if (token) {
 
         jwt.verify(token, JWT_SECRET_KEY, async function (err, decoded) {
             if (err) {
                 return res.status(403).json(new serviceResponse({ status: 403, errors: _auth_module.unAuth }));
             }
             else {
-                // Set Your Token Keys In Request
-                Object.entries(decoded).forEach(([key, value]) => {
-                    req[key] = value
-                })
-                next();
+                if (await redisClient.get(decoded._id)) {
+                    // Set Your Token Keys In Request
+                    Object.entries(decoded).forEach(([key, value]) => {
+                        req[key] = value
+                    })
+                    next();
+                } else {
+                    return res.status(403).send(new serviceResponse({ status: 403, errors: _auth_module.tokenExpired }));
+                }
             }
         });
     }
