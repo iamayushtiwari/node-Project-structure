@@ -8,22 +8,22 @@
                 "./src/*"
             ],
             "@middlewares/*": [
-                "./src/middlewares/*"
+                "./src/v1/middlewares/*"
             ],
             "@models/*": [
-                "./src/models/*"
+                "./src/v1/models/*"
             ],
             "@services/*": [
-                "./src/services/*"
+                "./src/v1/services/*"
             ],
             "@utils/*": [
-                "./src/utils/*"
+                "./src/v1/utils/*"
             ],
             "@config/*": [
                 "./config/*"
             ],
             "@views/*": [
-                "./src/views/*"
+                "./src/v1/views/*"
             ]
         }
     },

@@ -1,9 +1,10 @@
-const _table_name = {
-
+const _collectionName = {
+    Users: 'Users',
+    example_collections: "example_collections",
 }
 const _status = {
-    Active: "active",
-    Inactive: "inactive",
+    active: "active",
+    inactive: "inactive",
 }
 
 const _envMode = {
@@ -13,8 +14,10 @@ const _envMode = {
     staging: "staging"
 }
 
+
+
 module.exports = {
-    _table_name,
+    _collectionName,
     _status,
     _envMode,
 }

@@ -1,4 +1,4 @@
-const { PORT = 3000 } = require('../../../config/index');
+const { PORT = 3000 } = require('../../../../config/index');
 
 const options = {
     language: null,

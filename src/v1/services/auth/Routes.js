@@ -1,11 +1,12 @@
 const express = require('express');
 const { register, login, resetPassword, sendResetPage, forgot_password, logout } = require('./Controller');
 const { body } = require('express-validator');
-const { validateErrors } = require('@src/utils/helpers/express_validator');
-const { verifyJwtToken } = require('@src/middlewares/jwt');
+const { validateErrors } = require('@src/v1/utils/helpers/express_validator');
+const { verifyJwtToken } = require('@src/v1/middlewares/jwt');
+const { handleRateLimit } = require('@src/v1/middlewares/express_app');
 const userRouter = express.Router();
 
-
+userRouter.use(handleRateLimit)
 userRouter.post('/register', [
     body('name', "name can't be null").notEmpty().isString().not().trim(),
     body('username', "username can't be null").notEmpty().isString().not().trim(),

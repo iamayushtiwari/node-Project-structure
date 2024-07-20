@@ -9,7 +9,6 @@
 node_modules/
 .vscode/
 dist/
-.env
 config/serviceAccount.json
 # Compiled Java class files
 *.class

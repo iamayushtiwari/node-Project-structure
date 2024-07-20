@@ -7,11 +7,12 @@
     "start": "nodemon app.js",
     "start:dev": "set NODE_ENV=development&& nodemon app.js",
     "start:prod": "set NODE_ENV=production&& nodemon app.js",
-    "start:doc": "node ./src/utils/swagger/swagger.js"
+    "genrate:doc": "node ./src/v1/utils/swagger/swagger.js"
   },
   "author": "Ayush Tiwari",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1659.0",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -26,6 +27,7 @@
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
     "http": "^0.0.1-security",
+    "json2csv": "^6.0.0-alpha.2",
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "moment": "^2.30.1",

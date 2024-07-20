@@ -1,10 +1,10 @@
 
-const { _auth_module } = require("@src/utils/constants/messages");
+const { _auth_module } = require("@src/v1/utils/constants/messages");
 
 async function getAssoicatedModel() {
-    // Return Model Instance
+    // Return Collection Instance
     return {
-        
+
     }
 }
 

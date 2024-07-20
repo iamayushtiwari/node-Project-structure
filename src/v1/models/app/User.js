@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const { _commonKeys } = require('@src/v1/utils/helpers/collection');
+const { _collectionName } = require('@src/v1/utils/constants');
 
 
 const userSchema = new mongoose.Schema({
@@ -7,7 +9,8 @@ const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     email: { type: String, unique: true, required: true },
     mobile_number: { type: Number, unique: true, required: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    ..._commonKeys
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
@@ -18,5 +21,5 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-const User = mongoose.model('User', userSchema)
-module.exports = User
+const User = mongoose.model(_collectionName.Users, userSchema)
+module.exports = { User }

@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
-const { serviceResponse } = require('@src/utils/helpers/api_response');
-const { _auth_module } = require('@src/utils/constants/messages');
+const { serviceResponse } = require('@src/v1/utils/helpers/api_response');
+const { _auth_module } = require('@src/v1/utils/constants/messages');
 const { JWT_SECRET_KEY } = require('@config/index');
-const { redisClient } = require('@config/redis');
+const { asyncErrorHandler } = require('../utils/helpers/asyncErrorHandler');
+// const { redisClient } = require('@config/redis');
 
 /**
  * 
@@ -20,15 +21,15 @@ const verifyJwtToken = function (req, res, next) {
                 return res.status(403).json(new serviceResponse({ status: 403, errors: _auth_module.unAuth }));
             }
             else {
-                if (await redisClient.get(decoded._id)) {
-                    // Set Your Token Keys In Request
-                    Object.entries(decoded).forEach(([key, value]) => {
-                        req[key] = value
-                    })
-                    next();
-                } else {
-                    return res.status(403).send(new serviceResponse({ status: 403, errors: _auth_module.tokenExpired }));
-                }
+                // if (await redisClient.get(decoded._id)) {
+                //     // Set Your Token Keys In Request
+                //     Object.entries(decoded).forEach(([key, value]) => {
+                //         req[key] = value
+                //     })
+                //     next();
+                // } else {
+                //     return res.status(403).send(new serviceResponse({ status: 403, errors: _auth_module.tokenExpired }));
+                // }
             }
         });
     }
@@ -37,8 +38,8 @@ const verifyJwtToken = function (req, res, next) {
     }
 };
 
-const verifyBasicAuth = async function (req, res, next) {
-    try {
+const verifyBasicAuth = asyncErrorHandler(
+    async function (req, res, next) {
         const authheader = req.headers.authorization;
 
         if (!authheader) {
@@ -57,10 +58,8 @@ const verifyBasicAuth = async function (req, res, next) {
             res.setHeader('WWW-Authenticate', 'Basic');
             return res.status(401).json(new serviceResponse({ status: 401, errors: _auth_module.unAuth }));
         }
-    } catch (error) {
-        return res.status(500).json(new serviceResponse({ status: 500, errors: error.message }));
     }
-}
+)
 
 module.exports = {
     verifyJwtToken,

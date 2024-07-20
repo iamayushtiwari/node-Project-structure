@@ -29,4 +29,10 @@ module.exports = {
         },
         requireTLS: true
     },
+    s3Config: {
+        accessKey: process.env.ACCESS_KEY_ID,
+        secretKey: process.env.SECRET_ACCESS_KEY,
+        region: process.env.REGION,
+        bucketName: process.env.BUCKET_NAME
+    }
 }
