@@ -37,6 +37,7 @@
     "nodemailer": "^6.9.9",
     "redis": "^4.6.14",
     "swagger-ui-express": "^5.0.0",
+    "websocket": "^1.0.35",
     "winston": "^3.13.0"
   },
   "_moduleAliases": {

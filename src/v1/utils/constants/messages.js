@@ -35,6 +35,7 @@ module.exports = {
         mailNotSent: (key) => `${key || "Record"} not sent.`,
         Unauthorized: (key) => `${key || "User"} Unauthorized`,
         allReadyUpdated: (key, value) => `${key || "Record"} already updated ${value ? "as " + value : ""}`,
-        ratingAdd: (key) => `You can give rating at the end of ${key}`
+        ratingAdd: (key) => `You can give rating at the end of ${key}`,
+        subscribe: (key) => `Subscribed to event: ${key}`
     }
 }

@@ -1,3 +1,5 @@
+// Path Alias
+require('module-alias/register')
 // import modules
 const express = require("express");
 const app = express();
@@ -11,9 +13,7 @@ const cookieParser = require('cookie-parser');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./src/v1/utils/swagger/swagger-output.json');
-// Path Alias
-require('module-alias/register')
-
+require('@src/v1/utils/websocket/server');
 // configs
 const { PORT, apiVersion } = require("./config/index");
 require('./config/database')

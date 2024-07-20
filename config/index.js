@@ -10,6 +10,7 @@ module.exports = {
     // Server 
     NODE_ENV: process.env.NODE_ENV,
     PORT: process.env.PORT || 3000,
+    webSocketPort: process.env.WEBSOCKETPORT || 8080,
     rootDir: path.resolve('./'),
     apiVersion: process.env.API_VERSION,
     // Default Secret Key For Auth Token

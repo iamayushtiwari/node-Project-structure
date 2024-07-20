@@ -14,10 +14,15 @@ const _envMode = {
     staging: "staging"
 }
 
+const _webSocketEvents = {
+    product: "product"
+}
+
 
 
 module.exports = {
     _collectionName,
     _status,
     _envMode,
+    _webSocketEvents
 }
