@@ -13,21 +13,19 @@ module.exports = {
         }
     },
 
-    handleRouteNotFound: asyncErrorHandler(
-        (req, res, next) => {
-            return res.send(new serviceResponse({ status: 404, errors: "Route not found." }))
-        }
-    ),
+    handleRouteNotFound: (req, res, next) => {
+        return res.send(new serviceResponse({ status: 404, errors: "Route not found." }))
+    },
 
-    handleCors: asyncErrorHandler((req, res, next) => {
+    handleCors: (req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-Width, Content-Type, Accept, Authorization');
         res.setHeader('Access-Control-Allow-Credentials', true);
         next();
-    }),
+    },
 
-    handlePagination: asyncErrorHandler((req, res, next) => {
+    handlePagination: (req, res, next) => {
         let maxLimit = 100;
         let { limit, page, paginate = 1 } = req.query;
         let offset = 0;
@@ -40,7 +38,7 @@ module.exports = {
         req.query.offset = offset ? parseInt(offset) : 0;
         req.query.paginate = paginate == 0 ? 0 : 1;
         next();
-    }),
+    },
     handleRateLimit: rateLimit({
         windowMs: 1 * 60 * 1000, // 1 minutes
         max: 50, // Limit each IP to 5 requests per `window` (here, per 1 minutes)

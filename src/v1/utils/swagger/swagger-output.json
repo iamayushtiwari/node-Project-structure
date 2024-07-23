@@ -19,7 +19,7 @@
     }
   },
   "paths": {
-    "/user/register": {
+    "/product": {
       "post": {
         "description": "",
         "parameters": [
@@ -29,52 +29,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "username": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "mobile_number": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/user/login": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "password": {
+                "message": {
                   "example": "any"
                 }
               }
@@ -84,17 +39,11 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/user/logout": {
+    "/auth/register": {
       "post": {
         "description": "",
         "responses": {
@@ -104,37 +53,37 @@
         }
       }
     },
-    "/user/forgot-password": {
+    "/auth/login": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/user/reset/{token}": {
+    "/auth/logout": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/forgot-password": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/reset/{token}": {
       "get": {
         "description": "",
         "parameters": [
@@ -146,14 +95,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -165,17 +108,39 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/aws/upload": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/aws/delete": {
+      "post": {
+        "tags": [
+          "aws"
+        ],
+        "description": "",
+        "parameters": [
           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "password": {
-                  "example": "any"
-                },
-                "confirmPassword": {
+                "keys": {
                   "example": "any"
                 }
               }
@@ -185,12 +150,23 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/import-templete/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "template_name",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
           }
         }
       }

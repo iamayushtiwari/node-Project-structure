@@ -20,7 +20,7 @@ userRouter.post('/login', [
     body('password', "password can't be null").notEmpty().trim()
 ], validateErrors, login)
 
-userRouter.post('/logout', verifyJwtToken, logout)
+userRouter.post('/logout', logout)
 
 userRouter.post('/forgot-password', [
     body('email', "email can't be null").notEmpty().isEmail().not().withMessage("email is not in valid format").trim(),

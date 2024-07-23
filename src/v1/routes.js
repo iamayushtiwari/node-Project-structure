@@ -16,7 +16,7 @@ module.exports = (app) => {
     app.use('/aws', S3Router)
     app.use('/import-templete', templateRoutes)
 
-    app.post('/product', asyncErrorHandler((req, res) => {
+    app.post('/product', asyncErrorHandler((req, res, next) => {
         const { message } = req.body;
         eventEmitter.emit(_webSocketEvents.product, message);
         return res.send('message product sent to all WebSocket clients');

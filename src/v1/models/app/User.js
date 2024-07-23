@@ -21,5 +21,14 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+/**
+ * 
+ * @param {mongoose} mongoose 
+ * @returns {mongoose.Model}
+ */
+const UserModel = (mongoose) => {
+    return mongoose.model(_collectionName.Users, userSchema)
+}
+
 const User = mongoose.model(_collectionName.Users, userSchema)
-module.exports = { User }
+module.exports = { User, UserModel }

@@ -1,4 +1,5 @@
 const { errorLogger } = require("@config/logger");
+const { getAssoicatedModel } = require("@src/v1/models/Associations");
 // const { redisClient } = require("@config/redis");
 const { User } = require("@src/v1/models/app/User");
 const { serviceResponse } = require("@src/v1/utils/helpers/api_response");
@@ -18,7 +19,7 @@ module.exports.register = asyncErrorHandler(
         }
         const newUser = new User({ name, username, email, password, mobile_number });
         await newUser.save();
-        res.status(201).send(new serviceResponse({ status: 201, data: newUser, message: 'User registered successfully' }))
+        res.status(201).send(new serviceResponse({ status: 201, data: {}, message: 'User registered successfully' }))
     }
 )
 
@@ -47,6 +48,7 @@ module.exports.login = asyncErrorHandler(
 
 module.exports.logout = asyncErrorHandler(
     async (req, res, next) => {
+        const { tenantDB } = getAssoicatedModel('companyabc')
         res.clearCookie("token");
         return res.status(200).json({ message: 'logout successful' });
     }
